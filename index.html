@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر التطبيقات</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f16;
+            --phone-bg: #1c1c1e;
+            --border-color: #2e3440;
+            --text-color: #fff;
+            --secondary-text-color: #a8a8a8;
+            --search-bg: rgba(46, 52, 64, 0.4);
+            --app-item-bg: #2a2e37;
+            --button-bg: #3a3a3c;
+            --apple-icon-color: #555;
+            --scrollbar-thumb: #444;
+            --scrollbar-track: #111;
+            --install-btn-color: #ff5e00;
+            --tab-bar-bg: #111;
+            --tab-icon-color: #a8a8a8;
+            --tab-active-color: #ff5e00;
+            --prayer-reminder-bg: #ff5e00; /* لون جديد للتذكير */
+        }
+
+        body.light-mode {
+            --bg-color: #f1f1f1;
+            --phone-bg: #fff;
+            --border-color: #ccc;
+            --text-color: #000;
+            --secondary-text-color: #777;
+            --search-bg: rgba(229, 229, 229, 0.6);
+            --app-item-bg: #f9f9f9;
+            --button-bg: #e0e0e0;
+            --apple-icon-color: #999;
+            --scrollbar-thumb: #ccc;
+            --scrollbar-track: #e5e5e5;
+            --install-btn-color: #ff9800;
+            --tab-bar-bg: #e0e0e0;
+            --tab-icon-color: #777;
+            --tab-active-color: #ff9800;
+            --prayer-reminder-bg: #ff9800; /* لون جديد للتذكير */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background: linear-gradient(135deg, #0b0f16 0%, #000000 100%);
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+            direction: rtl;
+            transition: background-color 0.3s, color 0.3s;
+            scroll-behavior: smooth;
+        }
+
+        .phone-mockup {
+            width: 390px;
+            height: 844px;
+            background: var(--phone-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 25px;
+            font-size: 0.9em;
+            color: var(--text-color);
+            position: relative;
+        }
+
+        .time {
+            font-weight: bold;
+        }
+
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 30px;
+            background: var(--phone-bg);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 10;
+        }
+
+        .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            color: var(--secondary-text-color);
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .store-header {
+            padding: 20px 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .store-title {
+            text-align: center;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--text-color);
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 0;
+        }
+
+        .search-box {
+            position: relative;
+            background: var(--search-bg);
+            border-radius: 12px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .search-icon-svg {
+            width: 20px;
+            height: 20px;
+            fill: #ff9800;
+            margin-left: 10px;
+        }
+
+        .search-box input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 1em;
+            outline: none;
+            padding: 0;
+        }
+
+        .search-box input::placeholder {
+            color: var(--secondary-text-color);
+        }
+
+        .app-list-container {
+            flex-grow: 1;
+            padding: 0 20px 30px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary-text-color) var(--phone-bg);
+        }
+
+        .app-list-container::-webkit-scrollbar {
+            width: 8px;
+            background: transparent;
+        }
+
+        .app-list-container::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 4px;
+        }
+
+        .app-list-container::-webkit-scrollbar-thumb {
+            background-color: var(--secondary-text-color);
+            border-radius: 4px;
+            border: 2px solid var(--phone-bg);
+        }
+
+        .app-list-container::-webkit-scrollbar-thumb:hover {
+            background-color: #777;
+        }
+
+        .app-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--app-item-bg);
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .app-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .app-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            margin-left: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .app-details {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .app-name {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .app-size-version {
+            font-size: 0.8em;
+            color: var(--secondary-text-color);
+        }
+
+        .install-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .install-btn {
+            background: var(--install-btn-color);
+            color: #fff;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .install-btn:hover {
+            background: #e65200;
+            transform: scale(1.05);
+        }
+
+        body.light-mode .install-btn:hover {
+            background: #e68a00;
+        }
+
+        .tab-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: var(--tab-bar-bg);
+            border-top: 1px solid var(--border-color);
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--tab-icon-color);
+            font-size: 0.7em;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .tab-item.active {
+            color: var(--tab-active-color);
+        }
+
+        .tab-item svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            margin-bottom: 4px;
+            transition: fill 0.3s ease;
+        }
+
+        .prayer-reminder {
+            background-color: var(--prayer-reminder-bg);
+            color: #fff;
+            text-align: center;
+            padding: 5px 0;
+            font-size: 0.8em;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        @media (max-width: 450px) {
+            .phone-mockup {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                border: none;
+            }
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+    <script src="https://unpkg.com/adhan/dist/adhan.min.js"></script>
+</head>
+<body>
+
+    <div class="phone-mockup">
+        <div class="status-bar">
+            <span class="time" id="currentTime"></span>
+            <div class="notch"></div>
+            <div class="icons">
+                <button id="themeToggle" class="theme-toggle">🌙</button>
+            </div>
+        </div>
+
+        <div id="prayerReminder" class="prayer-reminder" style="display:none;"></div>
+
+        <div class="store-header">
+            <h1 class="store-title">متجر هيرو</h1>
+            <div class="search-box">
+                <svg class="search-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path d="M416 208c0 45.9-14.9 88.3-40.8 122.7L461.2 445.8c2.4 2.4 3.7 5.6 3.7 9s-1.3 6.6-3.7 9L445.8 461.2c-2.4 2.4-5.6 3.7-9 3.7s-6.6-1.3-9-3.7L330.7 376.8C296.3 401.9 253.9 416 208 416c-114.9 0-208-93.1-208-208S93.1 0 208 0s208 93.1 208 208zm-208 64c-35.3 0-64-28.7-64-64s28.7-64 64-64 64 28.7 64 64-28.7 64-64 64z"/>
+                </svg>
+                <input type="text" id="searchInput" placeholder="بحث...">
+            </div>
+        </div>
+
+        <div class="app-list-container">
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://a.top4top.io/p_35575pjx10.jpeg" alt="PUBG Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name">PUBGM HACK</span>
+                        <span class="app-size-version">95.1 MB - v4.0.0</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://www.google.com" target="_blank" class="install-link">
+                        <button class="install-btn">تثبيت</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://k.top4top.io/p_3557w06000.jpg" alt="TikTok LRD Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name">TikTok</span>
+                        <span class="app-size-version">103.1 MB - v24.7.1</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://en.divxland.org/wp-content/themes/apps/download.php?id=2922&key=MjkyMnwxNzU4OTgyMTc3fDE1Ni4yMDcuMTE2Ljc1fDRhMDVhMDEyMzdkOTZjYTM2ZWY0NGMyZTc5YzM5OWYyZjQ2N2ViYmQ5ODU1NWQxOGZhNDE4MzM2ZjZiYjkwOTE=" target="_blank" class="install-link">
+                        <button class="install-btn">تثبيت</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://upload.app/download/PLANET-LOADER/com.ayan.hax/54d733c499fa3264bbcf0d166428b3d86fb57497bdccdcd01a5afd7c1729518c" alt="InstaLRD Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name">BASHA LOADER</span>
+                        <span class="app-size-version">13.7 MB - v4.0.0</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://upload.app/api/download?sha256=54d733c499fa3264bbcf0d166428b3d86fb57497bdccdcd01a5afd7c1729518c&download_id=upload_fc6d444f-9c62-416b-b006-d2fadb583a1a&token=23dbef00e18431070256f06f795644aa68d90c15" target="_blank" class="install-link">
+                        <button class="install-btn">تثبيت</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://g.top4top.io/p_3557ktg9u1.png" alt="TubeLRD Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name">TubeLRD</span>
+                        <span class="app-size-version">54.0 MB - v18.26.5</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://www.google.com" target="_blank" class="install-link">
+                        <button class="install-btn">تثبيت</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://h.top4top.io/p_3557pdvem2.png" alt="Jodel LRD Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name">Jodel LRD</span>
+                        <span class="app-size-version">58.0 MB - v7.110</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://www.google.com" target="_blank" class="install-link">
+                        <button class="install-btn">تثبيت</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://herostore-s3.s3.eu-north-1.amazonaws.com/jodel-plus.png" alt="JodelPlus Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name">JodelPlus</span>
+                        <span class="app-size-version">42.5 MB - v7.110</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://www.google.com" target="_blank" class="install-link">
+                        <button class="install-btn">تثبيت</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://i.top4top.io/p_3557betx93.jpeg" alt="Anime Cloud Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name">انمي كلاود</span>
+                        <span class="app-size-version">6.3 MB - v6.5</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://www.google.com" target="_blank" class="install-link">
+                        <button class="install-btn">تثبيت</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://herostore-s3.s3.eu-north-1.amazonaws.com/muezzin.png" alt="Muezzin Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name">مؤذن السعودية</span>
+                        <span class="app-size-version">48.9 MB - v4.0.1</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://www.google.com" target="_blank" class="install-link">
+                        <button class="install-btn">تثبيت</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-bar">
+            <a href="index.html" class="tab-item active">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                    <path d="M575.8 255.5c0 18-15 32.1-32.4 32.1h-32.4L448 448l-96-96l-32 32l-64-64l-96 96l-32-32l-96 96L0 448l0-160.5H32c17.4 0 32-15.3 32-33.5C64 227.8 49 212 32 212L0 212l0-16.5c0-18.1 14.6-33.5 32.1-33.5L448 160V128.5c0-18.1 14.6-33.5 32.1-33.5L576 96z"/>
+                </svg>
+                <span>الرئيسية</span>
+            </a>
+            <a href="about.html" class="tab-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h-48V200h48v136zm40 0h48V200h-48v136zM352 176a32 32 0 1 1 0-64 32 32 0 1 1 0 64z"/>
+                </svg>
+                <span>من أنا</span>
+            </a>
+        </div>
+    </div>
+    
+    <audio id="azanAudio" src="https://www.islamcan.com/audio/azan/azan2.mp3" preload="auto"></audio>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('currentTime').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            const isLightMode = body.classList.contains('light-mode');
+            document.getElementById('themeToggle').textContent = isLightMode ? '☀️' : '🌙';
+            localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+        }
+
+        window.onload = function() {
+            updateTime();
+            setInterval(updateTime, 1000); 
+
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const themeToggleBtn = document.getElementById('themeToggle');
+
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                themeToggleBtn.textContent = '☀️';
+            } else {
+                body.classList.remove('light-mode');
+                themeToggleBtn.textContent = '🌙';
+            }
+            
+            themeToggleBtn.addEventListener('click', toggleTheme);
+
+            // تشغيل وظيفة تذكير الصلاة
+            setupPrayerReminder();
+        };
+
+        const searchInput = document.getElementById('searchInput');
+        const appItems = document.querySelectorAll('.app-item');
+
+        searchInput.addEventListener('input', function() {
+            const searchQuery = searchInput.value.toLowerCase();
+            appItems.forEach(appItem => {
+                const appName = appItem.querySelector('.app-name').textContent.toLowerCase();
+                const appSize = appItem.querySelector('.app-size-version').textContent.toLowerCase();
+                
+                if (appName.includes(searchQuery) || appSize.includes(searchQuery)) {
+                    appItem.style.display = 'flex';
+                } else {
+                    appItem.style.display = 'none';
+                }
+            });
+        });
+
+        // ======================================
+        // كود تذكير أوقات الصلاة
+        // ======================================
+        let prayerTimes = null;
+        const prayerNames = ['الفجر', 'الشروق', 'الظهر', 'العصر', 'المغرب', 'العشاء'];
+        const reminderElement = document.getElementById('prayerReminder');
+        const audio = document.getElementById('azanAudio');
+
+        function setupPrayerReminder() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const coordinates = new adhan.Coordinates(position.coords.latitude, position.coords.longitude);
+                        const date = new Date();
+                        const params = adhan.CalculationMethod.UmmAlQura();
+                        prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
+                        
+                        // تحديث الوقت كل ثانية
+                        setInterval(updatePrayerReminder, 1000); 
+                    },
+                    error => {
+                        console.error('Geolocation failed: ', error);
+                        // عرض رسالة خطأ للمستخدم إذا لم يتمكن من تحديد موقعه
+                        reminderElement.style.display = 'block';
+                        reminderElement.textContent = 'تعذر تحديد موقعك لحساب أوقات الصلاة.';
+                    }
+                );
+            } else {
+                reminderElement.style.display = 'block';
+                reminderElement.textContent = 'Geolocation غير مدعوم في متصفحك.';
+            }
+        }
+        
+        function updatePrayerReminder() {
+            if (!prayerTimes) return;
+
+            const now = new Date();
+            const currentPrayer = prayerTimes.currentPrayer();
+            const nextPrayer = prayerTimes.nextPrayer();
+            const nextPrayerTime = prayerTimes.timeForPrayer(nextPrayer);
+
+            if (nextPrayerTime) {
+                const timeDiff = nextPrayerTime.getTime() - now.getTime();
+                const minutesLeft = Math.ceil(timeDiff / (1000 * 60));
+
+                if (minutesLeft <= 5 && minutesLeft > 0) {
+                    reminderElement.style.display = 'block';
+                    reminderElement.textContent = `متبقي على صلاة ${prayerNames[nextPrayer]} حوالي ${minutesLeft} دقيقة`;
+                } else if (minutesLeft <= 0) {
+                    reminderElement.style.display = 'block';
+                    reminderElement.textContent = `حان الآن وقت صلاة ${prayerNames[nextPrayer]}`;
+                    playAzan();
+                    // إعادة حساب الأوقات لليوم التالي بعد انتهاء آخر صلاة
+                    if (nextPrayer === 'isha') {
+                        setTimeout(() => {
+                            const date = new Date();
+                            date.setDate(date.getDate() + 1);
+                            const params = adhan.CalculationMethod.UmmAlQura();
+                            prayerTimes = new adhan.PrayerTimes(prayerTimes.coordinates, date, params);
+                        }, 5 * 60 * 1000); // 5 دقائق بعد صلاة العشاء
+                    }
+                } else {
+                    reminderElement.style.display = 'none';
+                }
+            } else {
+                 reminderElement.style.display = 'none';
+            }
+        }
+
+        function playAzan() {
+            audio.play().catch(e => {
+                console.error('Audio playback failed: ', e);
+            });
+        }
+    </script>
+</body>
+</html>
