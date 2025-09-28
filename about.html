@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>من أنا</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f16;
+            --phone-bg: #1c1c1e;
+            --border-color: #2e3440;
+            --text-color: #fff;
+            --secondary-text-color: #a8a8a8;
+            --search-bg: rgba(46, 52, 64, 0.4);
+            --app-item-bg: #2a2e37;
+            --button-bg: #3a3a3c;
+            --apple-icon-color: #555;
+            --scrollbar-thumb: #444;
+            --scrollbar-track: #111;
+            --install-btn-color: #ff5e00;
+            --tab-bar-bg: #111;
+            --tab-icon-color: #a8a8a8;
+            --tab-active-color: #ff5e00;
+            --prayer-reminder-bg: #ff5e00;
+            --tab-pill-bg: #3a3a3c;
+        }
+
+        body.light-mode {
+            --bg-color: #f1f1f1;
+            --phone-bg: #fff;
+            --border-color: #ccc;
+            --text-color: #000;
+            --secondary-text-color: #777;
+            --search-bg: rgba(229, 229, 229, 0.6);
+            --app-item-bg: #f9f9f9;
+            --button-bg: #e0e0e0;
+            --apple-icon-color: #999;
+            --scrollbar-thumb: #ccc;
+            --scrollbar-track: #e5e5e5;
+            --install-btn-color: #ff9800;
+            --tab-bar-bg: #e0e0e0;
+            --tab-icon-color: #777;
+            --tab-active-color: #ff9800;
+            --prayer-reminder-bg: #ff9800;
+            --tab-pill-bg: #ccc;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background: linear-gradient(135deg, #0b0f16 0%, #000000 100%);
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+            direction: rtl;
+            transition: background-color 0.3s, color 0.3s;
+            scroll-behavior: smooth;
+        }
+
+        .phone-mockup {
+            width: 390px;
+            height: 844px;
+            background: var(--phone-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 25px;
+            font-size: 0.9em;
+            color: var(--text-color);
+            position: relative;
+        }
+
+        .time {
+            font-weight: bold;
+        }
+
+        .icons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-toggle {
+            background: var(--button-bg);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .theme-toggle svg {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            fill: var(--text-color);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        .sun-icon {
+            opacity: 0;
+            transform: rotate(90deg);
+        }
+
+        body.light-mode .moon-icon {
+            opacity: 0;
+            transform: rotate(-90deg);
+        }
+
+        body.light-mode .sun-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        .prayer-reminder {
+            background-color: var(--prayer-reminder-bg);
+            color: #fff;
+            text-align: center;
+            padding: 5px 0;
+            font-size: 0.8em;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .content-container {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary-text-color) var(--phone-bg);
+        }
+
+        .content-container::-webkit-scrollbar {
+            width: 8px;
+            background: transparent;
+        }
+
+        .content-container::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 4px;
+        }
+
+        .content-container::-webkit-scrollbar-thumb {
+            background-color: var(--secondary-text-color);
+            border-radius: 4px;
+            border: 2px solid var(--phone-bg);
+        }
+
+        .content-container::-webkit-scrollbar-thumb:hover {
+            background-color: #777;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2em;
+            font-weight: 700;
+        }
+
+        .about-text {
+            font-size: 1em;
+            line-height: 1.6;
+            color: var(--secondary-text-color);
+            margin-bottom: 20px;
+        }
+        
+        /* New Styles for Video */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0088cc;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .social-link:hover {
+            background-color: #006699;
+            transform: scale(1.02);
+        }
+
+        .social-link svg {
+            width: 24px;
+            height: 24px;
+            fill: #fff;
+            margin-left: 10px;
+        }
+        
+        .copyright {
+            padding: 10px;
+            text-align: center;
+            font-size: 0.7em;
+            color: var(--secondary-text-color);
+        }
+
+        .copyright a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .copyright a:hover {
+            color: var(--install-btn-color);
+        }
+
+        .tab-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: var(--tab-bar-bg);
+            border-top: 1px solid var(--border-color);
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            height: 65px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .tab-item {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--tab-icon-color);
+            font-size: 0.7em;
+            cursor: pointer;
+            text-decoration: none;
+            height: 100%;
+            transition: color 0.3s ease;
+            flex-grow: 1;
+            z-index: 1;
+        }
+
+        .tab-item.active {
+            color: var(--text-color);
+            transition: color 0.5s ease 0.2s;
+        }
+
+        .tab-item::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 45px;
+            background-color: var(--tab-pill-bg);
+            border-radius: 25px;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, background-color 0.3s ease;
+            z-index: -1;
+        }
+
+        .tab-item.active::after {
+            width: 90%;
+        }
+
+        .tab-item svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            margin-bottom: 4px;
+            transition: fill 0.3s ease;
+        }
+        
+        .language-selector-container {
+            position: relative;
+        }
+
+        .language-selector-btn {
+            background: var(--button-bg);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            padding: 0;
+        }
+
+        .language-selector-btn:hover {
+            background: var(--border-color);
+        }
+        
+        body.light-mode .language-selector-btn:hover {
+            background: #d4d4d4;
+        }
+
+        .language-selector-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-color);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: var(--phone-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 101;
+            padding: 10px;
+            min-width: 150px;
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            direction: rtl;
+        }
+
+        .language-dropdown.show {
+            display: flex;
+        }
+
+        .language-option {
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .language-option.active {
+            background: var(--tab-pill-bg);
+            color: var(--tab-active-color);
+            font-weight: bold;
+        }
+
+        .language-option:hover {
+            background: var(--button-bg);
+            transform: translateX(-3px);
+        }
+
+        @media (max-width: 450px) {
+            .phone-mockup {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                border: none;
+            }
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+    <script src="https://unpkg.com/adhan/dist/adhan.min.js"></script>
+</head>
+<body>
+
+    <div class="phone-mockup">
+        <div class="status-bar">
+            <span class="time" id="currentTime"></span>
+            <div class="icons">
+                <div class="language-selector-container">
+                    <button class="language-selector-btn" id="languageBtn" aria-haspopup="true" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path d="M512 256c0 141.6-114.6 256-256 256S0 397.6 0 256 114.6 0 256 0s256 114.6 256 256zM256 32c-15.3 0-29.7 1.2-43.5 3.4L267 79.4c-4.4 6.7-7.7 14.1-9.9 22.3L209.6 98c-20.2 1.3-39.7 7.7-57.5 18.2L91.1 63.8C143.2 24 196.3 3.6 244.6 3.4c2.8 0 5.5 .2 8.3 .2zM32 256c0 10.9 .8 21.6 2.3 32L106.6 270c-1.7-1.4-3.3-2.9-4.8-4.5-3.8-4-7.5-8-11.1-12.1L32 256zm215.8 198.5c-48.4-1.9-95.2-16.7-137.9-44.8l-18.9 10.9c-7.7 4.5-17.5 2.1-22-5.6s-2.1-17.5 5.6-22l21-36.4c4.5-7.7 2.1-17.5-5.6-22s-17.5-2.1-22 5.6L44.8 387.4C19.8 350.4 13.7 294.3 39.6 249.5l34.7 60.1 2.5 4.3c3.1 5.3 8.3 8.8 14.2 9.4s11.5-1.1 15.6-5.2l20.9-20.9 20.9 20.9c4.1 4.1 6.3 9.7 6.3 15.5s-2.2 11.4-6.3 15.5l-20.9 20.9L155 425.2c-4.1 4.1-6.3 9.7-6.3 15.5s2.2 11.4 6.3 15.5L182.2 477l24-41.6c-1.4 5-2.1 10.1-2.1 15.2 0 8.8 7.2 16 16 16s16-7.2 16-16c0-6.1-.9-12-2.7-17.5L256 429.2c18.5 2.1 37.6 2.1 56.1 0l21 36.4c4.5 7.7 14.3 10.1 22 5.6s10.1-14.3 5.6-22L330.6 427c-25.9-44.8-19.8-100.9 15.6-137.9L391.8 288c4.1-4.1 9.7-6.3 15.5-6.3s11.4 2.2 15.5 6.3l20.9 20.9 20.9-20.9c4.1-4.1 9.7-6.3 15.5-6.3s11.4 2.2 15.5 6.3l20.9 20.9c4.1 4.1 6.3 9.7 6.3 15.5s-2.2 11.4-6.3 15.5l-39.3 39.3c-2.4 2.4-5.6 3.7-9 3.7s-6.6-1.3-9-3.7L416 387.4c-1.4-1.4-2.9-2.9-4.5-4.5-3.8-4-7.5-8-11.1-12.1L352 320c-15.9 4-32.3 6.1-48.8 6.1-16.7 0-33.1-2.2-48.8-6.4L237 289.4c-4.1-4.1-9.7-6.3-15.5-6.3s-11.4 2.2-15.5 6.3l-20.9 20.9c-4.1 4.1-9.7 6.3-15.5 6.3s-11.4-2.2-15.5-6.3L155 310.6c-4.1-4.1-9.7-6.3-15.5-6.3s-11.4-2.2-15.5-6.3L89.4 353.4C63.5 388.2 57.4 434.3 89.4 466.2L125.8 484.7c15.8 9.1 35.3 15.5 57.5 18.2l39.3-68.1zM288 320a64 64 0 1 0 0-128 64 64 0 1 0 0 128zm-64-64a64 64 0 1 1 128 0 64 64 0 1 1 -128 0z"/>
+                        </svg>
+                    </button>
+                    <div class="language-dropdown" id="languageDropdown">
+                        <div class="language-option" data-lang="ar">العربية</div>
+                        <div class="language-option" data-lang="en">English</div>
+                        <div class="language-option" data-lang="fr">Français</div>
+                        <div class="language-option" data-lang="zh">中文</div>
+                        <div class="language-option" data-lang="ru">Русский</div>
+                    </div>
+                </div>
+                <button id="themeToggle" class="theme-toggle">
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                        <path d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.7 0 115.4-24.1 155.8-63.8c5.1-5.2 5.2-13.4 .2-18.6l-34.7-34.7c-3.1-3.1-8.2-3.2-11.4-.1c-14.3 14.9-32.4 26.8-52.6 34.9c-5.8 2.3-12.1 3.4-18.4 3.4c-35.5 0-64.4-28.8-64.4-64.4c0-31.1 15.3-59.1 40.8-76.2c-2.9-5.8-5.7-11.9-8.5-18.2c-9.1-2.2-18.4-3.4-27.8-3.4c-57.8 0-104.9 47-104.9 104.9c0 57.8 47 104.9 104.9 104.9c13.3 0 26.1-2.5 38.2-7.1c25.4-15.4 44.4-41.2 52.1-72.9c3.2-12.8 3.9-25.9 2.5-38.6z"/>
+                    </svg>
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path d="M361.5 204.5L345 168.1l20.4-35.4 36.4 21c7.7 4.5 17.5 2.1 22-5.6s2.1-17.5-5.6-22l-36.4-21L375.4 83.7c-4.5-7.7-2.1-17.5 5.6-22s17.5-2.1 22 5.6l10.9 18.9c25.9 44.8 19.8 100.9-15.6 137.9L400 293.4 361.5 204.5zM320 256a64 64 0 1 0 0-128 64 64 0 1 0 0 128zm144-64c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm-176 32a112 112 0 1 1 224 0 112 112 0 1 1 -224 0zm-112 32a16 16 0 1 0 0 32h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H176zm-128 0a16 16 0 1 0 0 32h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H48zm128-64c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm-32 96c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16zm-64 0c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="prayerReminder" class="prayer-reminder" style="display:none;"></div>
+
+        <div class="content-container">
+            <h2 class="about-header" id="aboutHeader">من أنا</h2>
+            <p class="about-text" id="aboutText1">
+                أهلاً بك في صفحتي الشخصية! أنا "احمد حسن" مصمم ومطور ويب أسعى لخلق تجارب مستخدم ممتعة وعصرية. هذا التطبيق هو جزء من مشروعي لإظهار قدراتي في تصميم واجهات المستخدم، مع التركيز على التفاعلية والجماليات البصرية.
+            </p>
+            <p class="about-text" id="aboutText2">
+                أحب دمج التقنيات الحديثة مع التصميمات البسيطة والأنيقة، وأؤمن بأن التكنولوجيا يجب أن تكون سهلة الاستخدام ومبهجة في نفس الوقت.
+            </p>
+            
+            <h3 class="about-header" id="videoHeader">فيديو توضيحي</h3>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/S_8qK51hU4I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <a href="https://t.me/rvv_0" target="_blank" class="social-link" id="socialLink">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
+                    <path d="M248 8C111.9 8 0 119.9 0 256s111.9 248 248 248 248-111.9 248-248S384.1 8 248 8zm101.7 200.7l-56.1 127.8c-2.3 5.1-1.3 10.9 2.7 15l.6 .6c4.2 4.1 10.2 5.1 15 2.5l140.7-74.9c5.6-3 9.2-8.9 9.3-15.3l.1-.9v-.8-.3c-.2-6.5-3.8-12.2-9.2-15.1l-241-127.8c-5.7-3-12.7-2.6-18.1 .8l-40.4 22.8c-5.2 2.9-8.4 8.7-8.3 14.8l.2 2.8v-.2c.2 6.5 4.3 11.9 10.1 14.7l46.2 22.8c6.1 3.1 13.1 2.9 18.9-.6l6.8-3.9 69.1-36.9c5.4-2.8 11.6-2 16.5 2.1l1.8 1.5c4.6 3.6 5.8 9.9 2.8 15.1l-24.8 45.4c-2.9 5.3-2.1 11.7 2.1 16.2l.1 .1c4.2 4.4 10.7 5.2 16.1 2.2l56.1-29.8c5.4-2.8 11.6-2 16.5 2.1l1.8 1.5c4.6 3.6 5.8 9.9 2.8 15.1z"/>
+                </svg>
+                انضم إلى قناة التيلجرام
+            </a>
+        </div>
+
+        <div class="copyright">
+            <p id="copyrightText">&copy; 2025 <a href="https://t.me/rvv_0" target="_blank">TSUNAMI</a>. جميع الحقوق محفوظة.</p>
+        </div>
+
+        <div class="tab-bar">
+            <a href="index.html" class="tab-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 14 14" id="Home-4--Streamline-Core-Gradient">
+                    <desc>
+                        Home 4 Streamline Icon: https://streamlinehq.com
+                    </desc>
+                    <g id="Free Gradient/Interface Essential/home-4--home-house-roof-shelter">
+                        <path id="Union" fill-rule="evenodd" d="M7.70711 1.29283c-.39053-.390522-1.02369-.390522-1.41422 0l-5.999997 6c-.3905241.39053-.3905241 1.02369 0 1.41422.390525.39052 1.023687.39052 1.414217 0L2 8.41415v3.58575c0 .5523.44772 1 1 1h8c.5523 0 1-.4477 1-1V8.41415l.2929.2929c.3905.39052 1.0237.39052 1.4142 0 .3905-.39053.3905-1.02369 0-1.41422l-5.99999-6Z" clip-rule="evenodd"></path>
+                    </g>
+                </svg>
+                <span id="homeTab">الرئيسية</span>
+            </a>
+            <a href="about.html" class="tab-item active">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" id="Circle-Exclamation--Streamline-Font-Awesome" fill="currentColor">
+                    <desc>
+                        Circle Exclamation Streamline Icon: https://streamlinehq.com
+                    </desc>
+                    <path d="M8 16a8 8 0 1 0 0 -16 8 8 0 1 0 0 16zm0 -12c0.415625 0 0.75 0.334375 0.75 0.75v3.5c0 0.415625 -0.334375 0.75 -0.75 0.75s-0.75 -0.334375 -0.75 -0.75V4.75c0 -0.415625 0.334375 -0.75 0.75 -0.75zm-1 7a1 1 0 1 1 2 0 1 1 0 1 1 -2 0z" stroke-width="0.0313"></path>
+                </svg>
+                <span id="aboutTab">من أنا</span>
+            </a>
+        </div>
+    </div>
+    
+    <audio id="azanAudio" src="https://www.islamcan.com/audio/azan/azan2.mp3" preload="auto"></audio>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('currentTime').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            const isLightMode = body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+        }
+
+        let prayerTimes = null;
+        const prayerNamesArabic = ['الفجر', 'الشروق', 'الظهر', 'العصر', 'المغرب', 'العشاء'];
+        const prayerNamesEnglish = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+        const prayerNamesFrench = ['Fajr', 'Lever du soleil', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+        const prayerNamesChinese = ['晨礼', '日出', '晌礼', '晡礼', '昏礼', '宵礼'];
+        const prayerNamesRussian = ['Фаджр', 'Восход', 'Зухр', 'Аср', 'Магриб', 'Иша'];
+
+        const reminderElement = document.getElementById('prayerReminder');
+        const audio = document.getElementById('azanAudio');
+
+        function setupPrayerReminder() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const coordinates = new adhan.Coordinates(position.coords.latitude, position.coords.longitude);
+                        const date = new Date();
+                        const params = adhan.CalculationMethod.UmmAlQura();
+                        prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
+                        setInterval(updatePrayerReminder, 1000); 
+                    },
+                    error => {
+                        console.error('Geolocation failed: ', error);
+                        reminderElement.style.display = 'block';
+                        const currentLang = localStorage.getItem('language') || 'ar';
+                        reminderElement.textContent = translations[currentLang].geolocationError;
+                    }
+                );
+            } else {
+                reminderElement.style.display = 'block';
+                const currentLang = localStorage.getItem('language') || 'ar';
+                reminderElement.textContent = translations[currentLang].geolocationNotSupported;
+            }
+        }
+        
+        function updatePrayerReminder(lang = localStorage.getItem('language') || 'ar') {
+            if (!prayerTimes) return;
+            const now = new Date();
+            const nextPrayer = prayerTimes.nextPrayer();
+            const nextPrayerTime = prayerTimes.timeForPrayer(nextPrayer);
+
+            if (nextPrayerTime) {
+                const timeDiff = nextPrayerTime.getTime() - now.getTime();
+                const minutesLeft = Math.ceil(timeDiff / (1000 * 60));
+
+                if (minutesLeft <= 5 && minutesLeft > 0) {
+                    reminderElement.style.display = 'block';
+                    reminderElement.textContent = translations[lang].prayerTimeRemaining(minutesLeft, nextPrayer);
+                } else if (minutesLeft <= 0) {
+                    reminderElement.style.display = 'block';
+                    reminderElement.textContent = translations[lang].prayerTimeNow(nextPrayer);
+                    playAzan();
+                    if (nextPrayer === 'isha') {
+                        setTimeout(() => {
+                            const date = new Date();
+                            date.setDate(date.getDate() + 1);
+                            const params = adhan.CalculationMethod.UmmAlQura();
+                            prayerTimes = new adhan.PrayerTimes(prayerTimes.coordinates, date, params);
+                        }, 5 * 60 * 1000);
+                    }
+                } else {
+                    reminderElement.style.display = 'none';
+                }
+            } else {
+                 reminderElement.style.display = 'none';
+            }
+        }
+
+        function playAzan() {
+            audio.play().catch(e => {
+                console.error('Audio playback failed: ', e);
+            });
+        }
+        
+        const translations = {
+            'ar': {
+                dir: 'rtl',
+                aboutHeader: 'من أنا',
+                aboutText1: 'أهلاً بك في صفحتي الشخصية! أنا "احمد حسن" مصمم ومطور ويب أسعى لخلق تجارب مستخدم ممتعة وعصرية. هذا التطبيق هو جزء من مشروعي لإظهار قدراتي في تصميم واجهات المستخدم، مع التركيز على التفاعلية والجماليات البصرية.',
+                aboutText2: 'أحب دمج التقنيات الحديثة مع التصميمات البسيطة والأنيقة، وأؤمن بأن التكنولوجيا يجب أن تكون سهلة الاستخدام ومبهجة في نفس الوقت.',
+                videoHeader: 'فيديو توضيحي',
+                socialLink: 'انضم إلى قناة التيلجرام',
+                homeTab: 'الرئيسية',
+                aboutTab: 'من أنا',
+                copyright: '&copy; 2025 <a href="https://t.me/rvv_0" target="_blank">TSUNAMI</a>. جميع الحقوق محفوظة.',
+                prayerTimeRemaining: (minutes, prayer) => `متبقي على صلاة ${prayerNamesArabic[prayer]} حوالي ${minutes} دقيقة`,
+                prayerTimeNow: (prayer) => `حان الآن وقت صلاة ${prayerNamesArabic[prayer]}`,
+                geolocationError: 'تعذر تحديد موقعك لحساب أوقات الصلاة.',
+                geolocationNotSupported: 'Geolocation غير مدعوم في متصفحك.'
+            },
+            'en': {
+                dir: 'ltr',
+                aboutHeader: 'About Me',
+                aboutText1: 'Welcome to my personal page! I am "Ahmed Hassan", a web designer and developer who seeks to create modern and enjoyable user experiences. This app is part of my project to demonstrate my abilities in UI design, focusing on interactivity and visual aesthetics.',
+                aboutText2: 'I love combining modern technologies with simple and elegant designs, and I believe that technology should be easy to use and delightful at the same time.',
+                videoHeader: 'Introductory Video',
+                socialLink: 'Join the Telegram Channel',
+                homeTab: 'Home',
+                aboutTab: 'About Me',
+                copyright: '&copy; 2025 <a href="https://t.me/rvv_0" target="_blank">TSUNAMI</a>. All rights reserved.',
+                prayerTimeRemaining: (minutes, prayer) => `About ${minutes} minutes left until ${prayerNamesEnglish[prayer]} prayer`,
+                prayerTimeNow: (prayer) => `It is now time for the ${prayerNamesEnglish[prayer]} prayer`,
+                geolocationError: 'Could not determine your location to calculate prayer times.',
+                geolocationNotSupported: 'Geolocation is not supported in your browser.'
+            },
+            'fr': {
+                dir: 'ltr',
+                aboutHeader: 'À propos de moi',
+                aboutText1: 'Bienvenue sur ma page personnelle ! Je suis "Ahmed Hassan", un concepteur et développeur web qui cherche à créer des expériences utilisateur modernes et agréables. Cette application fait partie de mon projet pour démontrer mes capacités en conception d\'interface utilisateur, en mettant l\'accent sur l\'interactivité et l\'esthétique visuelle.',
+                aboutText2: 'J\'aime combiner les technologies modernes avec des designs simples et élégants, et je crois que la technologie doit être facile à utiliser et agréable en même temps.',
+                videoHeader: 'Vidéo d\'introduction',
+                socialLink: 'Rejoindre le canal Telegram',
+                homeTab: 'Accueil',
+                aboutTab: 'À propos de moi',
+                copyright: '&copy; 2025 <a href="https://t.me/rvv_0" target="_blank">TSUNAMI</a>. Tous droits réservés.',
+                prayerTimeRemaining: (minutes, prayer) => `Il reste environ ${minutes} minutes avant la prière de ${prayerNamesFrench[prayer]}`,
+                prayerTimeNow: (prayer) => `C'est l'heure de la prière de ${prayerNamesFrench[prayer]}`,
+                geolocationError: 'Impossible de déterminer votre position pour calculer les heures de prière.',
+                geolocationNotSupported: 'La géolocalisation n\'est pas prise en charge par votre navigateur.'
+            },
+            'zh': {
+                dir: 'ltr',
+                aboutHeader: '关于我',
+                aboutText1: '欢迎来到我的个人页面！我是“Ahmed Hassan”，一名网页设计师和开发人员，致力于创造现代而愉悦的用户体验。此应用程序是我的项目的一部分，旨在展示我在用户界面设计方面的能力，重点是交互性和视觉美感。',
+                aboutText2: '我喜欢将现代技术与简洁优雅的设计相结合，并相信技术应该易于使用且令人愉悦。',
+                videoHeader: '介绍视频',
+                socialLink: '加入电报频道',
+                homeTab: '主页',
+                aboutTab: '关于我',
+                copyright: '&copy; 2025 <a href="https://t.me/rvv_0" target="_blank">TSUNAMI</a>. 版权所有.',
+                prayerTimeRemaining: (minutes, prayer) => `距离 ${prayerNamesChinese[prayer]} 祈祷还剩约 ${minutes} 分钟`,
+                prayerTimeNow: (prayer) => `现在是 ${prayerNamesChinese[prayer]} 祈祷时间`,
+                geolocationError: '无法确定您的位置来计算祈祷时间。',
+                geolocationNotSupported: '您的浏览器不支持地理位置。'
+            },
+            'ru': {
+                dir: 'ltr',
+                aboutHeader: 'Обо мне',
+                aboutText1: 'Добро пожаловать на мою личную страницу! Я «Ахмед Хасан», веб-дизайнер и разработчик, который стремится создавать современные и приятные пользовательские интерфейсы. Это приложение является частью моего проекта, демонстрирующего мои способности в UI-дизайне, с акцентом на интерактивность и визуальную эстетику.',
+                aboutText2: 'Мне нравится сочетать современные технологии с простыми и элегантными дизайнами, и я верю, что технологии должны быть простыми в использовании и приятными одновременно.',
+                videoHeader: 'Вводное видео',
+                socialLink: 'Присоединиться к Telegram-каналу',
+                homeTab: 'Главная',
+                aboutTab: 'Обо мне',
+                copyright: '&copy; 2025 <a href="https://t.me/rvv_0" target="_blank">TSUNAMI</a>. Все права защищены.',
+                prayerTimeRemaining: (minutes, prayer) => `Осталось примерно ${minutes} минут до молитвы ${prayerNamesRussian[prayer]}`,
+                prayerTimeNow: (prayer) => `Сейчас время для молитвы ${prayerNamesRussian[prayer]}`,
+                geolocationError: 'Не удалось определить ваше местоположение для расчета времени молитв.',
+                geolocationNotSupported: 'Геолокация не поддерживается вашим браузером.'
+            }
+        };
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.body.dir = translations[lang].dir;
+            document.getElementById('aboutHeader').textContent = translations[lang].aboutHeader;
+            document.getElementById('aboutText1').textContent = translations[lang].aboutText1;
+            document.getElementById('aboutText2').textContent = translations[lang].aboutText2;
+            document.getElementById('videoHeader').textContent = translations[lang].videoHeader;
+            document.getElementById('socialLink').textContent = translations[lang].socialLink;
+            document.getElementById('socialLink').insertAdjacentHTML('afterbegin', '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M248 8C111.9 8 0 119.9 0 256s111.9 248 248 248 248-111.9 248-248S384.1 8 248 8zm101.7 200.7l-56.1 127.8c-2.3 5.1-1.3 10.9 2.7 15l.6 .6c4.2 4.1 10.2 5.1 15 2.5l140.7-74.9c5.6-3 9.2-8.9 9.3-15.3l.1-.9v-.8-.3c-.2-6.5-3.8-12.2-9.2-15.1l-241-127.8c-5.7-3-12.7-2.6-18.1 .8l-40.4 22.8c-5.2 2.9-8.4 8.7-8.3 14.8l.2 2.8v-.2c.2 6.5 4.3 11.9 10.1 14.7l46.2 22.8c6.1 3.1 13.1 2.9 18.9-.6l6.8-3.9 69.1-36.9c5.4-2.8 11.6-2 16.5 2.1l1.8 1.5c4.6 3.6 5.8 9.9 2.8 15.1l-24.8 45.4c-2.9 5.3-2.1 11.7 2.1 16.2l.1 .1c4.2 4.4 10.7 5.2 16.1 2.2l56.1-29.8c5.4-2.8 11.6-2 16.5 2.1l1.8 1.5c4.6 3.6 5.8 9.9 2.8 15.1z"/></svg>');
+            document.getElementById('homeTab').textContent = translations[lang].homeTab;
+            document.getElementById('aboutTab').textContent = translations[lang].aboutTab;
+            document.getElementById('copyrightText').innerHTML = translations[lang].copyright;
+            
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            document.querySelector(`.language-option[data-lang="${lang}"]`).classList.add('active');
+
+            updatePrayerReminder(lang);
+
+            localStorage.setItem('language', lang);
+        }
+
+        window.onload = function() {
+            updateTime();
+            setInterval(updateTime, 1000); 
+
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+            } else {
+                body.classList.remove('light-mode');
+            }
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            
+            const languageBtn = document.getElementById('languageBtn');
+            const languageDropdown = document.getElementById('languageDropdown');
+            const languageOptions = document.querySelectorAll('.language-option');
+            
+            languageBtn.addEventListener('click', () => {
+                const isExpanded = languageBtn.getAttribute('aria-expanded') === 'true';
+                languageBtn.setAttribute('aria-expanded', !isExpanded);
+                languageDropdown.classList.toggle('show');
+            });
+            
+            languageOptions.forEach(option => {
+                option.addEventListener('click', (event) => {
+                    const selectedLang = event.target.getAttribute('data-lang');
+                    setLanguage(selectedLang);
+                    languageDropdown.classList.remove('show');
+                    languageBtn.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!event.target.closest('.language-selector-container') && languageDropdown.classList.contains('show')) {
+                    languageDropdown.classList.remove('show');
+                    languageBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            const savedLanguage = localStorage.getItem('language') || 'ar';
+            setLanguage(savedLanguage);
+            setupPrayerReminder();
+        };
+    </script>
+</body>
+</html>

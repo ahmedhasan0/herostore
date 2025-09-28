@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="appStoreTitle">متجر التطبيقات</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f16;
+            --phone-bg: #1c1c1e;
+            --border-color: #2e3440;
+            --text-color: #fff;
+            --secondary-text-color: #a8a8a8;
+            --search-bg: rgba(46, 52, 64, 0.4);
+            --app-item-bg: #2a2e37;
+            --button-bg: #3a3a3c;
+            --apple-icon-color: #555;
+            --scrollbar-thumb: #444;
+            --scrollbar-track: #111;
+            --install-btn-color: #ff5e00;
+            --tab-bar-bg: #111;
+            --tab-icon-color: #a8a8a8;
+            --tab-active-color: #ff5e00;
+            --prayer-reminder-bg: #ff5e00;
+            --tab-pill-bg: #3a3a3c;
+        }
+
+        body.light-mode {
+            --bg-color: #f1f1f1;
+            --phone-bg: #fff;
+            --border-color: #ccc;
+            --text-color: #000;
+            --secondary-text-color: #777;
+            --search-bg: rgba(229, 229, 229, 0.6);
+            --app-item-bg: #f9f9f9;
+            --button-bg: #e0e0e0;
+            --apple-icon-color: #999;
+            --scrollbar-thumb: #ccc;
+            --scrollbar-track: #e5e5e5;
+            --install-btn-color: #ff9800;
+            --tab-bar-bg: #e0e0e0;
+            --tab-icon-color: #777;
+            --tab-active-color: #ff9800;
+            --prayer-reminder-bg: #ff9800;
+            --tab-pill-bg: #ccc;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background: linear-gradient(135deg, #0b0f16 0%, #000000 100%);
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+            direction: rtl;
+            transition: background-color 0.3s, color 0.3s;
+            scroll-behavior: smooth;
+        }
+
+        .phone-mockup {
+            width: 390px;
+            height: 844px;
+            background: var(--phone-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 25px;
+            font-size: 0.9em;
+            color: var(--text-color);
+            position: relative;
+        }
+
+        .time {
+            font-weight: bold;
+        }
+
+        .icons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-toggle {
+            background: var(--button-bg);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .theme-toggle svg {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            fill: var(--text-color);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        .sun-icon {
+            opacity: 0;
+            transform: rotate(90deg);
+        }
+
+        body.light-mode .moon-icon {
+            opacity: 0;
+            transform: rotate(-90deg);
+        }
+
+        body.light-mode .sun-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        .store-header {
+            padding: 20px 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .store-title {
+            text-align: center;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--text-color);
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(255, 193, 7, 0.5), 0 0 10px rgba(255, 193, 7, 0.5), 0 0 15px rgba(255, 193, 7, 0.5);
+            margin: 0;
+            transition: text-shadow 0.3s ease;
+        }
+
+        .store-title:hover {
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.8), 0 0 20px rgba(255, 193, 7, 0.8), 0 0 30px rgba(255, 193, 7, 0.8);
+        }
+
+        .search-box {
+            position: relative;
+            background: var(--search-bg);
+            border-radius: 12px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .search-icon-svg {
+            width: 20px;
+            height: 20px;
+            fill: #ff9800;
+            margin-left: 10px;
+        }
+
+        .search-box input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 1em;
+            outline: none;
+            padding: 0;
+        }
+
+        .search-box input::placeholder {
+            color: var(--secondary-text-color);
+        }
+
+        .app-list-container {
+            flex-grow: 1;
+            padding: 0 20px 30px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary-text-color) var(--phone-bg);
+        }
+
+        .app-list-container::-webkit-scrollbar {
+            width: 8px;
+            background: transparent;
+        }
+
+        .app-list-container::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 4px;
+        }
+
+        .app-list-container::-webkit-scrollbar-thumb {
+            background-color: var(--secondary-text-color);
+            border-radius: 4px;
+            border: 2px solid var(--phone-bg);
+        }
+
+        .app-list-container::-webkit-scrollbar-thumb:hover {
+            background-color: #777;
+        }
+
+        .app-item {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--app-item-bg);
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .app-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .app-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            margin-left: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .app-details {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .app-name {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .app-size-version {
+            font-size: 0.8em;
+            color: var(--secondary-text-color);
+        }
+
+        .install-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .install-btn {
+            background: var(--install-btn-color);
+            color: #fff;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .install-btn:hover {
+            background: #e65200;
+            transform: scale(1.05);
+        }
+
+        body.light-mode .install-btn:hover {
+            background: #e68a00;
+        }
+
+        .app-description {
+            width: 100%;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, margin-top 0.5s ease;
+            text-align: right;
+            direction: rtl;
+            color: var(--secondary-text-color);
+            font-size: 0.9em;
+            margin-top: 0;
+            padding-top: 0;
+        }
+        
+        .app-item.expanded .app-description {
+            max-height: 200px;
+            margin-top: 10px;
+        }
+
+        .app-item.expanded .app-info {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .tab-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: var(--tab-bar-bg);
+            border-top: 1px solid var(--border-color);
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            height: 65px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .tab-item {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--tab-icon-color);
+            font-size: 0.7em;
+            cursor: pointer;
+            text-decoration: none;
+            height: 100%;
+            transition: color 0.3s ease;
+            flex-grow: 1;
+            z-index: 1;
+        }
+
+        .tab-item.active {
+            color: var(--text-color);
+            transition: color 0.5s ease 0.2s;
+        }
+
+        .tab-item::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 45px;
+            background-color: var(--tab-pill-bg);
+            border-radius: 25px;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, background-color 0.3s ease;
+            z-index: -1;
+        }
+
+        .tab-item.active::after {
+            width: 90%;
+            
+        }
+
+        .tab-item svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            margin-bottom: 4px;
+            transition: fill 0.3s ease;
+        }
+
+        .prayer-reminder {
+            background-color: var(--prayer-reminder-bg);
+            color: #fff;
+            text-align: center;
+            padding: 5px 0;
+            font-size: 0.8em;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .copyright {
+            padding: 10px;
+            text-align: center;
+            font-size: 0.7em;
+            color: var(--secondary-text-color);
+        }
+
+        .copyright a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .copyright a:hover {
+            color: var(--install-btn-color);
+        }
+
+        /* Styles for the new language selector */
+        .language-selector-container {
+            position: relative;
+        }
+
+        .language-selector-btn {
+            background: var(--button-bg);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            padding: 0;
+        }
+
+        .language-selector-btn:hover {
+            background: var(--border-color);
+        }
+        
+        body.light-mode .language-selector-btn:hover {
+            background: #d4d4d4;
+        }
+
+        .language-selector-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-color);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: var(--phone-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 101;
+            padding: 10px;
+            min-width: 150px;
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            direction: rtl;
+        }
+
+        .language-dropdown.show {
+            display: flex;
+        }
+
+        .language-option {
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .language-option.active {
+            background: var(--tab-pill-bg);
+            color: var(--tab-active-color);
+            font-weight: bold;
+        }
+
+        .language-option:hover {
+            background: var(--button-bg);
+            transform: translateX(-3px);
+        }
+        
+        @media (max-width: 450px) {
+            .phone-mockup {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                border: none;
+            }
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+    <script src="https://unpkg.com/adhan/dist/adhan.min.js"></script>
+</head>
+<body>
+
+    <div class="phone-mockup">
+        <div class="status-bar">
+            <span class="time" id="currentTime"></span>
+            <div class="icons">
+                <div class="language-selector-container">
+                    <button class="language-selector-btn" id="languageBtn" aria-haspopup="true" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path d="M512 256c0 141.6-114.6 256-256 256S0 397.6 0 256 114.6 0 256 0s256 114.6 256 256zM256 32c-15.3 0-29.7 1.2-43.5 3.4L267 79.4c-4.4 6.7-7.7 14.1-9.9 22.3L209.6 98c-20.2 1.3-39.7 7.7-57.5 18.2L91.1 63.8C143.2 24 196.3 3.6 244.6 3.4c2.8 0 5.5 .2 8.3 .2zM32 256c0 10.9 .8 21.6 2.3 32L106.6 270c-1.7-1.4-3.3-2.9-4.8-4.5-3.8-4-7.5-8-11.1-12.1L32 256zm215.8 198.5c-48.4-1.9-95.2-16.7-137.9-44.8l-18.9 10.9c-7.7 4.5-17.5 2.1-22-5.6s-2.1-17.5 5.6-22l21-36.4c4.5-7.7 2.1-17.5-5.6-22s-17.5-2.1-22 5.6L44.8 387.4C19.8 350.4 13.7 294.3 39.6 249.5l34.7 60.1 2.5 4.3c3.1 5.3 8.3 8.8 14.2 9.4s11.5-1.1 15.6-5.2l20.9-20.9 20.9 20.9c4.1 4.1 6.3 9.7 6.3 15.5s-2.2 11.4-6.3 15.5l-20.9 20.9L155 425.2c-4.1 4.1-6.3 9.7-6.3 15.5s2.2 11.4 6.3 15.5L182.2 477l24-41.6c-1.4 5-2.1 10.1-2.1 15.2 0 8.8 7.2 16 16 16s16-7.2 16-16c0-6.1-.9-12-2.7-17.5L256 429.2c18.5 2.1 37.6 2.1 56.1 0l21 36.4c4.5 7.7 14.3 10.1 22 5.6s10.1-14.3 5.6-22L330.6 427c-25.9-44.8-19.8-100.9 15.6-137.9L391.8 288c4.1-4.1 9.7-6.3 15.5-6.3s11.4 2.2 15.5 6.3l20.9 20.9 20.9-20.9c4.1-4.1 9.7-6.3 15.5-6.3s11.4 2.2 15.5 6.3l20.9 20.9c4.1 4.1 6.3 9.7 6.3 15.5s-2.2 11.4-6.3 15.5l-39.3 39.3c-2.4 2.4-5.6 3.7-9 3.7s-6.6-1.3-9-3.7L416 387.4c-1.4-1.4-2.9-2.9-4.5-4.5-3.8-4-7.5-8-11.1-12.1L352 320c-15.9 4-32.3 6.1-48.8 6.1-16.7 0-33.1-2.2-48.8-6.4L237 289.4c-4.1-4.1-9.7-6.3-15.5-6.3s-11.4 2.2-15.5 6.3l-20.9 20.9c-4.1 4.1-9.7 6.3-15.5 6.3s-11.4-2.2-15.5-6.3L155 310.6c-4.1-4.1-9.7-6.3-15.5-6.3s-11.4 2.2-15.5 6.3L89.4 353.4C63.5 388.2 57.4 434.3 89.4 466.2L125.8 484.7c15.8 9.1 35.3 15.5 57.5 18.2l39.3-68.1zM288 320a64 64 0 1 0 0-128 64 64 0 1 0 0 128zm-64-64a64 64 0 1 1 128 0 64 64 0 1 1 -128 0z"/>
+                        </svg>
+                    </button>
+                    <div class="language-dropdown" id="languageDropdown">
+                        <div class="language-option" data-lang="ar">العربية</div>
+                        <div class="language-option" data-lang="en">English</div>
+                        <div class="language-option" data-lang="fr">Français</div>
+                        <div class="language-option" data-lang="zh">中文</div>
+                        <div class="language-option" data-lang="ru">Русский</div>
+                    </div>
+                </div>
+                <button id="themeToggle" class="theme-toggle">
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                        <path d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.7 0 115.4-24.1 155.8-63.8c5.1-5.2 5.2-13.4 .2-18.6l-34.7-34.7c-3.1-3.1-8.2-3.2-11.4-.1c-14.3 14.9-32.4 26.8-52.6 34.9c-5.8 2.3-12.1 3.4-18.4 3.4c-35.5 0-64.4-28.8-64.4-64.4c0-31.1 15.3-59.1 40.8-76.2c-2.9-5.8-5.7-11.9-8.5-18.2c-9.1-2.2-18.4-3.4-27.8-3.4c-57.8 0-104.9 47-104.9 104.9c0 57.8 47 104.9 104.9 104.9c13.3 0 26.1-2.5 38.2-7.1c25.4-15.4 44.4-41.2 52.1-72.9c3.2-12.8 3.9-25.9 2.5-38.6z"/>
+                    </svg>
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path d="M361.5 204.5L345 168.1l20.4-35.4 36.4 21c7.7 4.5 17.5 2.1 22-5.6s2.1-17.5-5.6-22l-36.4-21L375.4 83.7c-4.5-7.7-2.1-17.5 5.6-22s17.5-2.1 22 5.6l10.9 18.9c25.9 44.8 19.8 100.9-15.6 137.9L400 293.4 361.5 204.5zM320 256a64 64 0 1 0 0-128 64 64 0 1 0 0 128zm144-64c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm-176 32a112 112 0 1 1 224 0 112 112 0 1 1 -224 0zm-112 32a16 16 0 1 0 0 32h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H176zm-128 0a16 16 0 1 0 0 32h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H48zm128-64c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm-32 96c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16zm-64 0c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="prayerReminder" class="prayer-reminder" style="display:none;"></div>
+
+        <div class="store-header">
+            <h1 class="store-title" data-i18n="storeTitle">متجر هيرو</h1>
+            <div class="search-box">
+                <svg class="search-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path d="M416 208c0 45.9-14.9 88.3-40.8 122.7L461.2 445.8c2.4 2.4 3.7 5.6 3.7 9s-1.3 6.6-3.7 9L445.8 461.2c-2.4 2.4-5.6 3.7-9 3.7s-6.6-1.3-9-3.7L330.7 376.8C296.3 401.9 253.9 416 208 416c-114.9 0-208-93.1-208-208S93.1 0 208 0s208 93.1 208 208zm-208 64c-35.3 0-64-28.7-64-64s28.7-64 64-64 64 28.7 64 64-28.7 64-64 64z"/>
+                </svg>
+                <input type="text" id="searchInput" data-i18n-placeholder="searchInputPlaceholder" placeholder="بحث...">
+            </div>
+        </div>
+
+        <div class="app-list-container">
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://l.top4top.io/p_35583qo441.jpg" alt="PUBG Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name" data-i18n="pubgName">ببجي مهكره</span>
+                        <span class="app-size-version"> MB 106.5 - v4.0.0</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://cdn901.onehost.io/2023/Pubg_Mobile_4.0.0_1756908228_latestmodapks.com.apk" target="_blank" class="install-link">
+                        <button class="install-btn" data-i18n="installButton">تثبيت</button>
+                    </a>
+                </div>
+                <div class="app-description" data-i18n="pubgDescription">
+                    <p>وصف تطبيق PubG Mobile Hack: يتيح لك هذا التطبيق مجموعة من الميزات الإضافية في لعبة ببجي موبايل، مثل الرؤية الليلية والتصويب التلقائي.</p>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://h.top4top.io/p_3558p73xk1.jpg" alt="TikTok LRD Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name" data-i18n="tiktokGoldName">تيكتوك الذهبي</span>
+                        <span class="app-size-version"> MB 507 - v4.20</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://dlll.apkm.app/TikTok/4.20/TikTok_Gold_v4.20.apk" target="_blank" class="install-link">
+                        <button class="install-btn" data-i18n="installButton">تثبيت</button>
+                    </a>
+                </div>
+                <div class="app-description" data-i18n="tiktokGoldDescription">
+                    <p>وصف تطبيق تيكتوك الذهبي: نسخة معدلة من تطبيق تيك توك تتيح لك تحميل مقاطع الفيديو بدون علامة مائية ومشاهدة المحتوى بدون إعلانات.</p>
+                </div>
+            </div>
+            
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://i.top4top.io/p_3558g89rt1.jpg" alt="TikTok LRD Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name" data-i18n="tiktokPluginName">مساعد تيكتوك</span>
+                        <span class="app-size-version"> MB 2.25 - v2.5.0</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://dlll.apkm.app/TikTok/plugin/2.5.0/TikTok_Plugin_2.5.0.apk" target="_blank" class="install-link">
+                        <button class="install-btn" data-i18n="installButton">تثبيت</button>
+                    </a>
+                </div>
+                <div class="app-description" data-i18n="tiktokPluginDescription">
+                    <p>وصف تطبيق مساعد تيكتوك: إضافة تُستخدم مع تطبيق تيكتوك الذهبي لفتح ميزات إضافية وتحسين الأداء.</p>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://k.top4top.io/p_35584a75a0.jpg" alt="InstaLRD Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name" data-i18n="bashaLoaderName">لودر باشا</span>
+                        <span class="app-size-version"> MB 13.1 - v3.9.0</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://mrkzgulfup.com/do.php?down=13149" target="_blank" class="install-link">
+                        <button class="install-btn" data-i18n="installButton">تثبيت</button>
+                    </a>
+                </div>
+                <div class="app-description" data-i18n="bashaLoaderDescription">
+                    <p>وصف تطبيق لودر باشا: محمل تطبيقات يستخدم لتثبيت التطبيقات المعدلة والوصول إلى محتوى حصري.</p>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://c.top4top.io/p_3558ang9s1.jpg" alt="TubeLRD Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name" data-i18n="freeFireModName">فري فاير مود</span>
+                        <span class="app-size-version"> MB 420 - v1.114.1</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://s1.1phut.io/v2/xQ1e" target="_blank" class="install-link">
+                        <button class="install-btn" data-i18n="installButton">تثبيت</button>
+                    </a>
+                </div>
+                <div class="app-description" data-i18n="freeFireModDescription">
+                    <p>وصف تطبيق فري فاير مود: نسخة معدلة من لعبة فري فاير توفر ميزات إضافية لمساعدة اللاعبين في تحقيق الفوز.</p>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://i.top4top.io/p_355818rxc1.jpg" alt="Jodel LRD Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name" data-i18n="whatsappPlusName">واتساب الذهبي</span>
+                        <span class="app-size-version"> MB 113 - v12.70F</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://dlll.apkm.app/wagold/12.70F/WA2_Abo3rab_v12.70F.apk" target="_blank" class="install-link">
+                        <button class="install-btn" data-i18n="installButton">تثبيت</button>
+                    </a>
+                </div>
+                <div class="app-description" data-i18n="whatsappPlusDescription">
+                    <p>وصف تطبيق واتساب الذهبي: نسخة معدلة من واتساب تضيف ميزات جديدة مثل إخفاء آخر ظهور، وتخصيص الواجهة، وميزات الخصوصية المتقدمة.</p>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://f.top4top.io/p_3558j55wg1.jpg" alt="JodelPlus Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name" data-i18n="instagramGoldName">انستا بلس</span>
+                        <span class="app-size-version"> MB 136 - v10.20</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://dlll.apkm.app/instagold/10.20/InstaGold_v10.20.apk" target="_blank" class="install-link">
+                        <button class="install-btn" data-i18n="installButton">تثبيت</button>
+                    </a>
+                </div>
+                <div class="app-description" data-i18n="instagramGoldDescription">
+                    <p>وصف تطبيق انستا بلس: نسخة معدلة من إنستجرام تسمح بتحميل الصور ومقاطع الفيديو، وميزات الخصوصية الإضافية، والقدرة على عرض صور الملف الشخصي بالحجم الكامل.</p>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://e.top4top.io/p_35582s5id1.jpg" alt="Anime Cloud Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name" data-i18n="youtubeGoldName">يوتيوب الذهبي</span>
+                        <span class="app-size-version"> MB 101.13 - v19.30</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://apkdownloader.cc/storage/files/2025/01/youtube.gold.apk.v19.30.39.apk" target="_blank" class="install-link">
+                        <button class="install-btn" data-i18n="installButton">تثبيت</button>
+                    </a>
+                </div>
+                <div class="app-description" data-i18n="youtubeGoldDescription">
+                    <p>وصف تطبيق يوتيوب الذهبي: نسخة معدلة من يوتيوب تتيح لك مشاهدة الفيديوهات بدون إعلانات، وتشغيل المحتوى في الخلفية، وتحميل الفيديوهات بجودات مختلفة.</p>
+                </div>
+            </div>
+
+            <div class="app-item">
+                <div class="app-info">
+                    <img src="https://a.top4top.io/p_3558769oq1.jpg" alt="Muezzin Icon" class="app-icon">
+                    <div class="app-details">
+                        <span class="app-name" data-i18n="microGName">مساعد يوتيوب</span>
+                        <span class="app-size-version" data-i18n="microGHelper">مساعد اليوتيوب الذهبي</span>
+                        <span class="app-size-version"> MB 37 - v0.3.1.4</span>
+                    </div>
+                </div>
+                <div class="install-section">
+                    <a href="https://dlll.apkm.app/ytgold/14/MicroG_0.3.1.3.240913.apk" target="_blank" class="install-link">
+                        <button class="install-btn" data-i18n="installButton">تثبيت</button>
+                    </a>
+                </div>
+                <div class="app-description" data-i18n="microGDescription">
+                    <p>وصف تطبيق مساعد يوتيوب: هي مجموعة من البرامج مفتوحة المصدر التي تحل محل خدمات جوجل بلاي على أجهزة الأندرويد، وتستخدم لتمكين تطبيقات مثل يوتيوب الذهبي من العمل بشكل صحيح.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-bar">
+            <a href="index.html" class="tab-item active">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 14 14" id="Home-4--Streamline-Core-Gradient">
+                    <desc>
+                        Home 4 Streamline Icon: https://streamlinehq.com
+                    </desc>
+                    <g id="Free Gradient/Interface Essential/home-4--home-house-roof-shelter">
+                        <path id="Union" fill-rule="evenodd" d="M7.70711 1.29283c-.39053-.390522-1.02369-.390522-1.41422 0l-5.999997 6c-.3905241.39053-.3905241 1.02369 0 1.41422.390525.39052 1.023687.39052 1.414217 0L2 8.41415v3.58575c0 .5523.44772 1 1 1h8c.5523 0 1-.4477 1-1V8.41415l.2929.2929c.3905.39052 1.0237.39052 1.4142 0 .3905-.39053.3905-1.02369 0-1.41422l-5.99999-6Z" clip-rule="evenodd"></path>
+                    </g>
+                </svg>
+                <span data-i18n="homeTab">الرئيسية</span>
+            </a>
+            <a href="about.html" class="tab-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" id="Circle-Exclamation--Streamline-Font-Awesome" fill="currentColor">
+                    <desc>
+                        Circle Exclamation Streamline Icon: https://streamlinehq.com
+                    </desc>
+                    <path d="M8 16a8 8 0 1 0 0 -16 8 8 0 1 0 0 16zm0 -12c0.415625 0 0.75 0.334375 0.75 0.75v3.5c0 0.415625 -0.334375 0.75 -0.75 0.75s-0.75 -0.334375 -0.75 -0.75V4.75c0 -0.415625 0.334375 -0.75 0.75 -0.75zm-1 7a1 1 0 1 1 2 0 1 1 0 1 1 -2 0z" stroke-width="0.0313"></path>
+                </svg>
+                <span data-i18n="aboutTab">من أنا</span>
+            </a>
+        </div>
+
+        <div class="copyright">
+            <p data-i18n="copyrightText" id="copyrightText">&copy; 2025 <a href="https://t.me/rvv_0" target="_blank">TSUNAMI</a>. جميع الحقوق محفوظة.</p>
+        </div>
+    </div>
+    
+    <audio id="azanAudio" src="https://www.islamcan.com/audio/azan/azan2.mp3" preload="auto"></audio>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('currentTime').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            const isLightMode = body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+        }
+
+        const searchInput = document.getElementById('searchInput');
+        const appItems = document.querySelectorAll('.app-item');
+
+        searchInput.addEventListener('input', function() {
+            const searchQuery = searchInput.value.toLowerCase();
+            appItems.forEach(appItem => {
+                const appName = appItem.querySelector('.app-name').textContent.toLowerCase();
+                const appSize = appItem.querySelector('.app-size-version').textContent.toLowerCase();
+                
+                if (appName.includes(searchQuery) || appSize.includes(searchQuery)) {
+                    appItem.style.display = 'flex';
+                } else {
+                    appItem.style.display = 'none';
+                }
+            });
+        });
+
+        // Toggle app description on click
+        appItems.forEach(item => {
+            item.addEventListener('click', function(event) {
+                // Prevent clicking the install button from toggling the description
+                if (event.target.closest('.install-section')) {
+                    return;
+                }
+                item.classList.toggle('expanded');
+            });
+        });
+
+        // ======================================
+        // كود تذكير أوقات الصلاة
+        // ======================================
+        let prayerTimes = null;
+        const prayerNames = {
+            'ar': ['الفجر', 'الشروق', 'الظهر', 'العصر', 'المغرب', 'العشاء'],
+            'en': ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'],
+            'fr': ['Fajr', 'Lever du soleil', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'],
+            'zh': ['晨礼', '日出', '晌礼', '晡礼', '昏礼', '宵礼'],
+            'ru': ['Фаджр', 'Восход', 'Зухр', 'Аср', 'Магриб', 'Иша']
+        };
+
+        const reminderElement = document.getElementById('prayerReminder');
+        const audio = document.getElementById('azanAudio');
+
+        function setupPrayerReminder() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const coordinates = new adhan.Coordinates(position.coords.latitude, position.coords.longitude);
+                        const date = new Date();
+                        const params = adhan.CalculationMethod.UmmAlQura();
+                        prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
+                        
+                        setInterval(updatePrayerReminder, 1000); 
+                    },
+                    error => {
+                        console.error('Geolocation failed: ', error);
+                        reminderElement.style.display = 'block';
+                        const currentLang = localStorage.getItem('language') || 'ar';
+                        reminderElement.textContent = translations[currentLang].geolocationError;
+                    }
+                );
+            } else {
+                reminderElement.style.display = 'block';
+                const currentLang = localStorage.getItem('language') || 'ar';
+                reminderElement.textContent = translations[currentLang].geolocationNotSupported;
+            }
+        }
+        
+        function updatePrayerReminder(lang = localStorage.getItem('language') || 'ar') {
+            if (!prayerTimes) return;
+
+            const now = new Date();
+            const nextPrayer = prayerTimes.nextPrayer();
+            const nextPrayerTime = prayerTimes.timeForPrayer(nextPrayer);
+
+            if (nextPrayerTime) {
+                const timeDiff = nextPrayerTime.getTime() - now.getTime();
+                const minutesLeft = Math.ceil(timeDiff / (1000 * 60));
+
+                if (minutesLeft <= 5 && minutesLeft > 0) {
+                    reminderElement.style.display = 'block';
+                    reminderElement.textContent = translations[lang].prayerTimeRemaining(minutesLeft, prayerNames[lang][prayerTimes.nextPrayerIndex()]);
+                } else if (minutesLeft <= 0) {
+                    reminderElement.style.display = 'block';
+                    reminderElement.textContent = translations[lang].prayerTimeNow(prayerNames[lang][prayerTimes.nextPrayerIndex()]);
+                    playAzan();
+                    if (nextPrayer === 'isha') {
+                        setTimeout(() => {
+                            const date = new Date();
+                            date.setDate(date.getDate() + 1);
+                            const params = adhan.CalculationMethod.UmmAlQura();
+                            prayerTimes = new adhan.PrayerTimes(prayerTimes.coordinates, date, params);
+                        }, 5 * 60 * 1000);
+                    }
+                } else {
+                    reminderElement.style.display = 'none';
+                }
+            } else {
+                 reminderElement.style.display = 'none';
+            }
+        }
+
+        function playAzan() {
+            audio.play().catch(e => {
+                console.error('Audio playback failed: ', e);
+            });
+        }
+        
+        // ======================================
+        // كود تغيير اللغة
+        // ======================================
+        const translations = {
+            'ar': {
+                dir: 'rtl',
+                appStoreTitle: 'متجر التطبيقات',
+                storeTitle: 'متجر هيرو',
+                searchInputPlaceholder: 'بحث...',
+                installButton: 'تثبيت',
+                homeTab: 'الرئيسية',
+                aboutTab: 'من أنا',
+                copyrightText: '&copy; 2025 <a href="https://t.me/rvv_0" target="_blank">TSUNAMI</a>. جميع الحقوق محفوظة.',
+                pubgName: 'ببجي مهكره',
+                pubgDescription: 'وصف تطبيق PubG Mobile Hack: يتيح لك هذا التطبيق مجموعة من الميزات الإضافية في لعبة ببجي موبايل، مثل الرؤية الليلية والتصويب التلقائي.',
+                tiktokGoldName: 'تيكتوك الذهبي',
+                tiktokGoldDescription: 'وصف تطبيق تيكتوك الذهبي: نسخة معدلة من تطبيق تيك توك تتيح لك تحميل مقاطع الفيديو بدون علامة مائية ومشاهدة المحتوى بدون إعلانات.',
+                tiktokPluginName: 'مساعد تيكتوك',
+                tiktokPluginDescription: 'وصف تطبيق مساعد تيكتوك: إضافة تُستخدم مع تطبيق TikTok Gold لفتح ميزات إضافية وتحسين الأداء.',
+                bashaLoaderName: 'لودر باشا',
+                bashaLoaderDescription: 'وصف تطبيق لودر باشا: محمل تطبيقات يستخدم لتثبيت التطبيقات المعدلة والوصول إلى محتوى حصري.',
+                freeFireModName: 'فري فاير مود',
+                freeFireModDescription: 'وصف تطبيق فري فاير مود: نسخة معدلة من لعبة فري فاير توفر ميزات إضافية لمساعدة اللاعبين في تحقيق الفوز.',
+                whatsappPlusName: 'واتساب الذهبي',
+                whatsappPlusDescription: 'وصف تطبيق واتساب الذهبي: نسخة معدلة من واتساب تضيف ميزات جديدة مثل إخفاء آخر ظهور، وتخصيص الواجهة، وميزات الخصوصية المتقدمة.',
+                instagramGoldName: 'انستا بلس',
+                instagramGoldDescription: 'وصف تطبيق انستا بلس: نسخة معدلة من إنستجرام تسمح بتحميل الصور ومقاطع الفيديو، وميزات الخصوصية الإضافية، والقدرة على عرض صور الملف الشخصي بالحجم الكامل.',
+                youtubeGoldName: 'يوتيوب الذهبي',
+                youtubeGoldDescription: 'وصف تطبيق يوتيوب الذهبي: نسخة معدلة من يوتيوب تتيح لك مشاهدة الفيديوهات بدون إعلانات، وتشغيل المحتوى في الخلفية، وتحميل الفيديوهات بجودات مختلفة.',
+                microGName: 'مساعد يوتيوب',
+                microGHelper: 'مساعد اليوتيوب الذهبي',
+                microGDescription: 'وصف تطبيق مساعد يوتيوب: هي مجموعة من البرامج مفتوحة المصدر التي تحل محل خدمات جوجل بلاي على أجهزة الأندرويد، وتستخدم لتمكين تطبيقات مثل يوتيوب الذهبي من العمل بشكل صحيح.',
+                prayerTimeRemaining: (minutes, prayer) => `متبقي على صلاة ${prayer} حوالي ${minutes} دقيقة`,
+                prayerTimeNow: (prayer) => `حان الآن وقت صلاة ${prayer}`,
+                geolocationError: 'تعذر تحديد موقعك لحساب أوقات الصلاة.',
+                geolocationNotSupported: 'Geolocation غير مدعوم في متصفحك.'
+            },
+            'en': {
+                dir: 'ltr',
+                appStoreTitle: 'App Store',
+                storeTitle: 'Hero Store',
+                searchInputPlaceholder: 'Search...',
+                installButton: 'Install',
+                homeTab: 'Home',
+                aboutTab: 'About Me',
+                copyrightText: '&copy; 2025 <a href="https://t.me/rvv_0" target="_blank">TSUNAMI</a>. All rights reserved.',
+                pubgName: 'PUBG Hacked',
+                pubgDescription: 'PUBG Mobile Hack Description: This app provides a set of extra features in the PUBG Mobile game, such as night vision and automatic aiming.',
+                tiktokGoldName: 'TikTok Gold',
+                tiktokGoldDescription: 'TikTok Gold Description: A modified version of the TikTok app that allows you to download videos without a watermark and watch content without ads.',
+                tiktokPluginName: 'TikTok Plugin',
+                tiktokPluginDescription: 'TikTok Plugin Description: An add-on used with the TikTok Gold app to unlock additional features and improve performance.',
+                bashaLoaderName: 'Basha Loader',
+                bashaLoaderDescription: 'BASHA LOADER Description: An app loader used to install modified applications and access exclusive content.',
+                freeFireModName: 'Free Fire Mod',
+                freeFireModDescription: 'Free Fire Mod Description: A modified version of the Free Fire game that provides extra features to help players win.',
+                whatsappPlusName: 'WhatsApp Gold',
+                whatsappPlusDescription: 'WhatsApp Gold Description: A modified version of WhatsApp that adds new features such as hiding last seen, interface customization, and advanced privacy features.',
+                instagramGoldName: 'Insta Plus',
+                instagramGoldDescription: 'Instagram Gold Description: A modified version of Instagram that allows downloading photos and videos, additional privacy features, and the ability to view full-size profile pictures.',
+                youtubeGoldName: 'Youtube Gold',
+                youtubeGoldDescription: 'Youtube Gold Description: A modified version of YouTube that allows you to watch videos without ads, play content in the background, and download videos in different qualities.',
+                microGName: 'YouTube Helper',
+                microGHelper: 'YouTube Gold Helper',
+                microGDescription: 'MicroG Description: A set of open-source software that replaces Google Play Services on Android devices, used to enable apps like YouTube Gold to function correctly.',
+                prayerTimeRemaining: (minutes, prayer) => `About ${minutes} minutes left until ${prayer} prayer`,
+                prayerTimeNow: (prayer) => `It is now time for the ${prayer} prayer`,
+                geolocationError: 'Could not determine your location to calculate prayer times.',
+                geolocationNotSupported: 'Geolocation is not supported in your browser.'
+            },
+            'fr': {
+                dir: 'ltr',
+                appStoreTitle: 'App Store',
+                storeTitle: 'Boutique Héro',
+                searchInputPlaceholder: 'Rechercher...',
+                installButton: 'Installer',
+                homeTab: 'Accueil',
+                aboutTab: 'À propos de moi',
+                copyrightText: '&copy; 2025 <a href="https://t.me/rvv_0" target="_blank">TSUNAMI</a>. Tous droits réservés.',
+                pubgName: 'PUBG Hack',
+                pubgDescription: 'Description de l\'application PubG Mobile Hack: Cette application fournit un ensemble de fonctionnalités supplémentaires dans le jeu PUBG Mobile, telles que la vision nocturne et la visée automatique.',
+                tiktokGoldName: 'TikTok Gold',
+                tiktokGoldDescription: 'Description de l\'application TikTok Gold: Une version modifiée de l\'application TikTok qui vous permet de télécharger des vidéos sans filigrane et de regarder du contenu sans publicité.',
+                tiktokPluginName: 'TikTok Plugin',
+                tiktokPluginDescription: 'Description de l\'application TikTok Plugin: Un module complémentaire utilisé avec l\'application TikTok Gold pour débloquer des fonctionnalités supplémentaires et améliorer les performances.',
+                bashaLoaderName: 'Basha Loader',
+                bashaLoaderDescription: 'Description de l\'application BASHA LOADER: Un chargeur d\'applications utilisé pour installer des applications modifiées et accéder à du contenu exclusif.',
+                freeFireModName: 'Free Fire Mod',
+                freeFireModDescription: 'Description de l\'application Free Fire Mod: Une version modifiée du jeu Free Fire qui offre des fonctionnalités supplémentaires pour aider les joueurs à gagner.',
+                whatsappPlusName: 'WhatsApp Plus',
+                whatsappPlusDescription: 'Description de l\'application WhatsApp Plus: Une version modifiée de WhatsApp qui ajoute de nouvelles fonctionnalités comme cacher la dernière vue, personnaliser l\'interface et des fonctionnalités de confidentialité avancées.',
+                instagramGoldName: 'Insta Plus',
+                instagramGoldDescription: 'Description de l\'application Instagram Gold: Une version modifiée d\'Instagram qui permet de télécharger des photos et des vidéos، des fonctionnalités de confidentialité supplémentaires et la possibilité de voir les photos de profil en taille réelle.',
+                youtubeGoldName: 'Youtube Gold',
+                youtubeGoldDescription: 'Description de l\'application Youtube Gold: Une version modifiée de YouTube qui vous permet de regarder des vidéos sans publicité, de lire du contenu en arrière-plan et de télécharger des vidéos de différentes qualités.',
+                microGName: 'YouTube Helper',
+                microGHelper: 'Assistant YouTube Gold',
+                microGDescription: 'Description de l\'application MicroG: Il s\'agit d\'un ensemble de logiciels open-source qui remplacent les services Google Play sur les appareils Android et sont utilisés pour permettre aux applications comme YouTube Gold de fonctionner correctement.',
+                prayerTimeRemaining: (minutes, prayer) => `Il reste environ ${minutes} minutes avant la prière de ${prayer}`,
+                prayerTimeNow: (prayer) => `C'est l'heure de la prière de ${prayer}`,
+                geolocationError: 'Impossible de déterminer votre position pour calculer les heures de prière.',
+                geolocationNotSupported: 'La géolocalisation n\'est pas prise en charge par votre navigateur.'
+            },
+            'zh': {
+                dir: 'ltr',
+                appStoreTitle: '应用商店',
+                storeTitle: '英雄商店',
+                searchInputPlaceholder: '搜索...',
+                installButton: '安装',
+                homeTab: '主页',
+                aboutTab: '关于我',
+                copyrightText: '&copy; 2025 <a href="https://t.me/rvv_0" target="_blank">TSUNAMI</a>. 版权所有.',
+                pubgName: 'PUBG 外挂版',
+                pubgDescription: '《PUBG Mobile Hack》应用说明：此应用在《PUBG Mobile》游戏中提供了一系列额外功能，例如夜视和自动瞄准。',
+                tiktokGoldName: 'TikTok Gold',
+                tiktokGoldDescription: '《TikTok Gold》应用说明：这是TikTok应用的修改版本，可以让你下载没有水印的视频，并观看没有广告的内容。',
+                tiktokPluginName: 'TikTok 插件',
+                tiktokPluginDescription: '《TikTok Plugin》应用说明：一个与《TikTok Gold》应用一起使用的插件，用于解锁额外功能和提高性能。',
+                bashaLoaderName: 'Basha 加载器',
+                bashaLoaderDescription: '《BASHA LOADER》应用说明：一个应用加载器，用于安装修改过的应用并访问独家内容。',
+                freeFireModName: 'Free Fire Mod',
+                freeFireModDescription: '《Free Fire Mod》应用说明：这是《Free Fire》游戏的修改版本，提供了额外功能以帮助玩家获胜。',
+                whatsappPlusName: 'WhatsApp Gold',
+                whatsappPlusDescription: '《WhatsApp Plus》应用说明：这是WhatsApp的修改版本，增加了新功能，例如隐藏最后上线时间、自定义界面和高级隐私功能。',
+                instagramGoldName: 'Instagram Plus',
+                instagramGoldDescription: '《Instagram Gold》应用说明：这是Instagram的修改版本，可以下载照片和视频，提供额外的隐私功能，并能够查看全尺寸个人资料图片。',
+                youtubeGoldName: 'Youtube Gold',
+                youtubeGoldDescription: '《Youtube Gold》应用说明：这是YouTube的修改版本，可以让你观看无广告视频，在后台播放内容，并下载不同质量的视频。',
+                microGName: 'YouTube 助手',
+                microGHelper: 'YouTube Gold 助手',
+                microGDescription: '《MicroG》应用说明：这是一套开源软件，用于在Android设备上取代Google Play服务，并用于启用像《YouTube Gold》这样的应用正常运行。',
+                prayerTimeRemaining: (minutes, prayer) => `距离 ${minutes} 祈祷还剩约 ${prayer} 分钟`,
+                prayerTimeNow: (prayer) => `现在是 ${prayer} 祈祷时间`,
+                geolocationError: '无法确定您的位置来计算祈祷时间。',
+                geolocationNotSupported: '您的浏览器不支持地理位置。'
+            },
+            'ru': {
+                dir: 'ltr',
+                appStoreTitle: 'Магазин приложений',
+                storeTitle: 'Магазин Героя',
+                searchInputPlaceholder: 'Поиск...',
+                installButton: 'Установить',
+                homeTab: 'Главная',
+                aboutTab: 'Обо мне',
+                copyrightText: '&copy; 2025 <a href="https://t.me/rvv_0" target="_blank">TSUNAMI</a>. Все права защищены.',
+                pubgName: 'PUBG взлом',
+                pubgDescription: 'Описание приложения PubG Mobile Hack: Это приложение предоставляет набор дополнительных функций в игре PUBG Mobile, таких как ночное видение и автоматическое прицеливание.',
+                tiktokGoldName: 'TikTok Gold',
+                tiktokGoldDescription: 'Описание приложения TikTok Gold: Модифицированная версия приложения TikTok, которая позволяет загружать видео без водяных знаков и смотреть контент без рекламы.',
+                tiktokPluginName: 'TikTok Плагин',
+                tiktokPluginDescription: 'Описание приложения TikTok Plugin: Дополнение, используемое с приложением TikTok Gold для разблокировки дополнительных функций и улучшения производительности.',
+                bashaLoaderName: 'BASHA LOADER',
+                bashaLoaderDescription: 'Описание приложения BASHA LOADER: Загрузчик приложений, используемый для установки модифицированных приложений и доступа к эксклюзивному контенту.',
+                freeFireModName: 'Free Fire Mod',
+                freeFireModDescription: 'Описание приложения Free Fire Mod: Модифицированная версия игры Free Fire, которая предоставляет дополнительные функции, помогающие игрокам достичь победы.',
+                whatsappPlusName: 'WhatsApp Gold',
+                whatsappPlusDescription: 'Описание приложения WhatsApp Plus: Модифицированная версия WhatsApp, которая добавляет новые функции, такие как скрытие последнего посещения, настройка интерфейса и расширенные функции конфиденциальности.',
+                instagramGoldName: 'Insta Plus',
+                instagramGoldDescription: 'Описание приложения Instagram Gold: Модифицированная версия Instagram, которая позволяет загружать фотографии и видео, имеет дополнительные функции конфиденциальности и возможность просмотра изображений профиля в полном размере.',
+                youtubeGoldName: 'Youtube Gold',
+                youtubeGoldDescription: 'Описание приложения Youtube Gold: Модифицированная версия YouTube, которая позволяет смотреть видео без рекламы، воспроизводить контент в фоновом режиме и загружать видео в разном качестве.',
+                microGName: 'YouTube Помощник',
+                microGHelper: 'Помощник YouTube Gold',
+                microGDescription: 'Описание приложения MicroG: Это набор программного обеспечения с открытым исходным кодом, который заменяет сервисы Google Play на устройствах Android и используется для правильной работы таких приложений, как YouTube Gold.',
+                prayerTimeRemaining: (minutes, prayer) => `Осталось примерно ${minutes} минут до молитвы ${prayer}`,
+                prayerTimeNow: (prayer) => `Сейчас время для молитвы ${prayer}`,
+                geolocationError: 'Не удалось определить ваше местоположение для расчета времени молитв.',
+                geolocationNotSupported: 'Геолокация не поддерживается вашим браузером.'
+            }
+        };
+
+        function setLanguage(lang) {
+            // Set the document language and direction
+            document.documentElement.lang = lang;
+            document.body.dir = translations[lang].dir;
+
+            // Update elements with data-i18n attributes
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (key && translations[lang][key]) {
+                    // Check for special cases like innerHTML
+                    if (key === 'copyrightText') {
+                        element.innerHTML = translations[lang][key];
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+
+            // Update placeholder attributes
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (key && translations[lang][key]) {
+                    element.placeholder = translations[lang][key];
+                }
+            });
+            
+            // Update the active class on the new language options
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            document.querySelector(`.language-option[data-lang="${lang}"]`).classList.add('active');
+            
+            // Update prayer reminder message
+            updatePrayerReminder(lang);
+
+            localStorage.setItem('language', lang);
+        }
+        
+        // Adjust the updatePrayerReminder function to use the new translations structure
+        function updatePrayerReminder(lang = localStorage.getItem('language') || 'ar') {
+            if (!prayerTimes) return;
+
+            const now = new Date();
+            const nextPrayer = prayerTimes.nextPrayer();
+            const nextPrayerTime = prayerTimes.timeForPrayer(nextPrayer);
+
+            if (nextPrayerTime) {
+                const timeDiff = nextPrayerTime.getTime() - now.getTime();
+                const minutesLeft = Math.ceil(timeDiff / (1000 * 60));
+
+                if (minutesLeft <= 5 && minutesLeft > 0) {
+                    reminderElement.style.display = 'block';
+                    reminderElement.textContent = translations[lang].prayerTimeRemaining(minutesLeft, prayerNames[lang][prayerTimes.nextPrayerIndex()]);
+                } else if (minutesLeft <= 0) {
+                    reminderElement.style.display = 'block';
+                    reminderElement.textContent = translations[lang].prayerTimeNow(prayerNames[lang][prayerTimes.nextPrayerIndex()]);
+                    playAzan();
+                    if (nextPrayer === 'isha') {
+                        setTimeout(() => {
+                            const date = new Date();
+                            date.setDate(date.getDate() + 1);
+                            const params = adhan.CalculationMethod.UmmAlQura();
+                            prayerTimes = new adhan.PrayerTimes(prayerTimes.coordinates, date, params);
+                        }, 5 * 60 * 1000);
+                    }
+                } else {
+                    reminderElement.style.display = 'none';
+                }
+            } else {
+                 reminderElement.style.display = 'none';
+            }
+        }
+
+        function playAzan() {
+            audio.play().catch(e => {
+                console.error('Audio playback failed: ', e);
+            });
+        }
+
+        window.onload = function() {
+            updateTime();
+            setInterval(updateTime, 1000); 
+
+            // Theme toggle logic
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+            } else {
+                body.classList.remove('light-mode');
+            }
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            
+            // New Language selector logic
+            const languageBtn = document.getElementById('languageBtn');
+            const languageDropdown = document.getElementById('languageDropdown');
+            const languageOptions = document.querySelectorAll('.language-option');
+            
+            languageBtn.addEventListener('click', () => {
+                const isExpanded = languageBtn.getAttribute('aria-expanded') === 'true';
+                languageBtn.setAttribute('aria-expanded', !isExpanded);
+                languageDropdown.classList.toggle('show');
+            });
+            
+            languageOptions.forEach(option => {
+                option.addEventListener('click', (event) => {
+                    const selectedLang = event.target.getAttribute('data-lang');
+                    setLanguage(selectedLang);
+                    languageDropdown.classList.remove('show');
+                    languageBtn.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            // Close dropdown if clicked outside
+            document.addEventListener('click', (event) => {
+                if (!event.target.closest('.language-selector-container') && languageDropdown.classList.contains('show')) {
+                    languageDropdown.classList.remove('show');
+                    languageBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Initialize language and prayer reminder
+            const savedLanguage = localStorage.getItem('language') || 'ar';
+            setLanguage(savedLanguage);
+            setupPrayerReminder();
+        };
+    </script>
+</body>
+</html>
